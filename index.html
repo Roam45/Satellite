@@ -85,7 +85,7 @@
             };
         })();
     </script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.0.3/showdown.min.js"></script>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
     <script>
         const socket = io("https://satellite-backend-ii42.onrender.com");
@@ -137,13 +137,19 @@
             }
         }
 
+        const converter = new showdown.Converter();
+
         socket.on("message", (msg) => {
             const messagesDiv = document.getElementById("messages");
             const messageElement = document.createElement("div");
-            messageElement.textContent = msg;
+
+            // Convert Markdown to HTML before displaying
+            messageElement.innerHTML = converter.makeHtml(msg);
+    
             messagesDiv.appendChild(messageElement);
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
         });
+
     </script>
 </body>
 </html>
