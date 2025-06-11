@@ -33,14 +33,15 @@
         }
 
         #log {
+            margin-top: 10px;
             height: 150px;
             overflow-y: auto;
-            border-top: 1px solid #ccc;
+            border-top: 1px solid #000000;
             padding: 10px;
             text-align: left;
             font-family: monospace;
             background: #222;
-            color: #0f0;
+            color: rgb(255, 255, 255);
         }
 
         input, button {
@@ -68,8 +69,9 @@
         <div id="messages"></div>
         <input type="text" id="messageInput" placeholder="Type a message...">
         <button onclick="sendMessage()">Send</button>
-        <div id="log">Console Output:</div>
     </div>
+
+            <div id="log">Console Output:</div>
 
     <script>
         (function() {
