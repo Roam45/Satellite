@@ -1,0 +1,150 @@
+:root {
+    --nyanza: #dff2d8;
+    --tea-green: #c6dea6;
+    --verdigris: #7ebdc3;
+    --wenge: #7a6263;
+    --sage: #ced097;
+}
+
+body {
+    font-family: sans-serif;
+    background: var(--nyanza);
+    color: var(--wenge);
+    margin: 0;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+#auth {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+#chat {
+    display: none;
+    width: 100%;
+    max-width: 600px;
+    background: #fff;
+    border: 1px solid var(--verdigris);
+    border-radius: 10px;
+    padding: 1rem;
+    border: 1px solid var(--sage)
+}
+
+#messages {
+    height: 250px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    background: #fff;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+    border: 1px solid var(--sage)
+}
+
+#log {
+    height: 100px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    background: var(--wenge);
+    color: var(--tea-green);
+    font-family: monospace;
+    font-size: 0.8rem;
+    border-radius: 6px;
+    white-space: pre-wrap;
+    margin-top: 0.5rem;
+}
+
+input,
+button {
+    all: unset;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    cursor: block;
+}
+
+input {
+    background: #fff;
+    color: var(--wenge);
+    border: 1px solid var(--sage);
+    min-width: 140px;
+}
+
+input:focus {
+    border-color: var(--verdigris);
+}
+
+button {
+    background: var(--verdigris);
+    color: #fff;
+}
+
+button:hover {
+    background: var(--tea-green);
+    color: var(--wenge);
+}
+/* HTML: <div class="loader"></div> */
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  background-color: var(--tea-green);
+  display: grid;
+  place-items: center; /* centers the spinner */
+
+  z-index: 9999;
+
+  /* Fade-out effect */
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+/* The actual spinner circle inside the loader */
+/* Fullscreen background container */
+.loader-wrapper {
+  position: fixed;
+  inset: 0;
+  background-color: var(--nyanza);
+  display: grid;
+  place-items: center;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  --d: 22px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  color: #25b09b;
+  box-shadow:
+    calc(1 * var(--d))      calc(0 * var(--d))     0 0,
+    calc(0.707 * var(--d))  calc(0.707 * var(--d)) 0 1px,
+    calc(0 * var(--d))      calc(1 * var(--d))     0 2px,
+    calc(-0.707 * var(--d)) calc(0.707 * var(--d)) 0 3px,
+    calc(-1 * var(--d))     calc(0 * var(--d))     0 4px,
+    calc(-0.707 * var(--d)) calc(-0.707 * var(--d))0 5px,
+    calc(0 * var(--d))      calc(-1 * var(--d))    0 6px;
+  animation: l27 1s infinite steps(8);
+  will-change: transform;
+}
+
+@keyframes l27 {
+  100% {
+    transform: rotate(1turn);
+  }
+}

@@ -1,57 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
     <title>Satellite</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        #auth {
-            margin-bottom: 20px;
-        }
-
-        #chat {
-            display: none;
-            width: 500px;
-            border: 1px solid #ccc;
-            padding: 10px;
-        }
-
-        #messages {
-            height: 300px;
-            overflow-y: auto;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 10px;
-            text-align: left;
-        }
-
-        #log {
-            margin-top: 10px;
-            height: 150px;
-            overflow-y: auto;
-            border-top: 1px solid #000000;
-            padding: 10px;
-            text-align: left;
-            font-family: monospace;
-            background: #222;
-            color: rgb(255, 255, 255);
-        }
-
-        input, button {
-            padding: 5px;
-            margin: 5px;
-        }
-    </style>
 </head>
 
 <body>
+    <div class="loader-wrapper">
+        <div class="loader"></div>
+    </div>
+
     <h1>Satellite</h1>
 
     <!-- Registration & Login Form -->
@@ -59,9 +20,8 @@
         <form onsubmit="event.preventDefault(); login();">
             <input type="text" id="username" placeholder="Username">
             <input type="password" id="password" placeholder="Password">
-            <button type="button" onclick="register()">Register</button>
             <button type="submit">Login</button>
-            <div id="log">Console Output:</div>
+            <button type="button" onclick="register()">Register</button>
         </form>
     </div>
 
@@ -70,8 +30,27 @@
         <div id="messages"></div>
         <input type="text" id="messageInput" placeholder="Type a message...">
         <button onclick="sendMessage()">Send</button>
-        <div id="log">Console Output:</div>
     </div>
+    <script>
+        window.addEventListener("load", () => {
+            setTimeout(() => {
+            const loader = document.querySelector(".loader");
+            if (loader) {
+                loader.style.opacity = "0";
+                setTimeout(() => loader.remove(), 500); // remove after fade-out
+            }
+            }, 1500);
+        });
+        window.addEventListener("load", () => {
+            setTimeout(() => {
+            const loader = document.querySelector(".loader-wrapper");
+            if (loader) {
+                loader.style.opacity = "0";
+                setTimeout(() => loader.remove(), 500); // remove after fade-out
+            }
+            }, 1500);
+        });
+    </script>
 
     <script>
         (function() {
@@ -87,69 +66,7 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.0.3/showdown.min.js"></script>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
-    <script>
-        const socket = io("https://satellite-backend-ii42.onrender.com");
-        let username = "";
-
-        function register() {
-            const user = document.getElementById("username").value;
-            const pass = document.getElementById("password").value;
-
-            fetch("https://satellite-backend-ii42.onrender.com/register", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ username: user, password: pass })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) console.log("Registration successful! Now login.");
-                    else console.log("Username already exists.");
-                });
-        }
-
-        function login() {
-            const user = document.getElementById("username").value;
-            const pass = document.getElementById("password").value;
-
-            fetch("https://satellite-backend-ii42.onrender.com/login", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ username: user, password: pass })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        username = user;
-                        document.getElementById("auth").style.display = "none";
-                        document.getElementById("chat").style.display = "block";
-                    } else {
-                        console.log("Login failed");
-                    }
-                });
-        }
-
-        function sendMessage() {
-            const input = document.getElementById("messageInput");
-            const message = input.value.trim();
-            if (message) {
-                socket.emit("message", `${username}: ${message}`);
-                input.value = "";
-            }
-        }
-
-        const converter = new showdown.Converter();
-
-        socket.on("message", (msg) => {
-            const messagesDiv = document.getElementById("messages");
-            const messageElement = document.createElement("div");
-
-            // Convert Markdown to HTML before displaying
-            messageElement.innerHTML = converter.makeHtml(msg);
-    
-            messagesDiv.appendChild(messageElement);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        });
-
-    </script>
+    <script src="main.js"></script>
 </body>
+
 </html>
