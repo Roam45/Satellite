@@ -90,61 +90,63 @@ button:hover {
     background: var(--tea-green);
     color: var(--wenge);
 }
+
 /* HTML: <div class="loader"></div> */
 .loader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
 
-  background-color: var(--tea-green);
-  display: grid;
-  place-items: center; /* centers the spinner */
+    background-color: var(--tea-green);
+    display: grid;
+    place-items: center;
+    /* centers the spinner */
 
-  z-index: 9999;
+    z-index: 9999;
 
-  /* Fade-out effect */
-  opacity: 1;
-  transition: opacity 0.5s ease;
+    /* Fade-out effect */
+    opacity: 1;
+    transition: opacity 0.5s ease;
 }
 
 /* The actual spinner circle inside the loader */
 /* Fullscreen background container */
 .loader-wrapper {
-  position: fixed;
-  inset: 0;
-  background-color: var(--nyanza);
-  display: grid;
-  place-items: center;
-  z-index: 9999;
-  opacity: 1;
-  transition: opacity 0.5s ease;
+    position: fixed;
+    inset: 0;
+    background-color: var(--nyanza);
+    display: grid;
+    place-items: center;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.5s ease;
 }
 
 .loader {
     position: absolute;
     top: 50%;
     left: 50%;
-  --d: 22px;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  color: #25b09b;
-  box-shadow:
-    calc(1 * var(--d))      calc(0 * var(--d))     0 0,
-    calc(0.707 * var(--d))  calc(0.707 * var(--d)) 0 1px,
-    calc(0 * var(--d))      calc(1 * var(--d))     0 2px,
-    calc(-0.707 * var(--d)) calc(0.707 * var(--d)) 0 3px,
-    calc(-1 * var(--d))     calc(0 * var(--d))     0 4px,
-    calc(-0.707 * var(--d)) calc(-0.707 * var(--d))0 5px,
-    calc(0 * var(--d))      calc(-1 * var(--d))    0 6px;
-  animation: l27 1s infinite steps(8);
-  will-change: transform;
+    --d: 22px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    color: #25b09b;
+    box-shadow:
+        calc(1 * var(--d)) calc(0 * var(--d)) 0 0,
+        calc(0.707 * var(--d)) calc(0.707 * var(--d)) 0 1px,
+        calc(0 * var(--d)) calc(1 * var(--d)) 0 2px,
+        calc(-0.707 * var(--d)) calc(0.707 * var(--d)) 0 3px,
+        calc(-1 * var(--d)) calc(0 * var(--d)) 0 4px,
+        calc(-0.707 * var(--d)) calc(-0.707 * var(--d))0 5px,
+        calc(0 * var(--d)) calc(-1 * var(--d)) 0 6px;
+    animation: l27 1s infinite steps(8);
+    will-change: transform;
 }
 
 @keyframes l27 {
-  100% {
-    transform: rotate(1turn);
-  }
+    100% {
+        transform: rotate(1turn);
+    }
 }
