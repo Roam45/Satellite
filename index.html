@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Im good at web dev</title>
+    <title>Satellite</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         #auth {
@@ -17,8 +19,7 @@
 
         #chat {
             display: none;
-            max-width: 500px;
-            margin: auto;
+            width: 500px;
             border: 1px solid #ccc;
             padding: 10px;
         }
@@ -31,21 +32,20 @@
             text-align: left;
         }
 
-        input,
-        button {
-            padding: 5px;
-            margin: 5px;
-        }
-
         #log {
-            white-space: pre-wrap;
+            height: 150px;
+            overflow-y: auto;
+            border-top: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
             font-family: monospace;
             background: #222;
             color: #0f0;
-            padding: 10px;
-            border-radius: 5px;
-            max-height: 200px;
-            overflow-y: auto;
+        }
+
+        input, button {
+            padding: 5px;
+            margin: 5px;
         }
     </style>
 </head>
@@ -68,9 +68,9 @@
         <div id="messages"></div>
         <input type="text" id="messageInput" placeholder="Type a message...">
         <button onclick="sendMessage()">Send</button>
+        <div id="log">Console Output:</div>
     </div>
 
-    <div id="log">Output:</div>
     <script>
         (function() {
             const logDiv = document.getElementById("log");
@@ -79,14 +79,14 @@
             console.log = function(...args) {
                 originalLog.apply(console, args);
                 logDiv.innerHTML += "<br>" + args.map(arg => JSON.stringify(arg, null, 2)).join(" ");
+                logDiv.scrollTop = logDiv.scrollHeight; // Auto-scroll for better visibility
             };
         })();
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.0.0/showdown.min.js"></script>
+
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
     <script>
         const socket = io("https://satellite-backend-ii42.onrender.com");
-        const converter = new showdown.Converter();
         let username = "";
 
         function register() {
@@ -95,13 +95,8 @@
 
             fetch("https://satellite-backend-ii42.onrender.com/register", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        username: user,
-                        password: pass
-                    })
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username: user, password: pass })
                 })
                 .then(res => res.json())
                 .then(data => {
@@ -116,13 +111,8 @@
 
             fetch("https://satellite-backend-ii42.onrender.com/login", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        username: user,
-                        password: pass
-                    })
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username: user, password: pass })
                 })
                 .then(res => res.json())
                 .then(data => {
@@ -131,16 +121,10 @@
                         document.getElementById("auth").style.display = "none";
                         document.getElementById("chat").style.display = "block";
                     } else {
-                        alert("Login failed");
+                        console.log("Login failed");
                     }
                 });
         }
-
-        socket.on("loadMessages", (messages) => {
-            messages.forEach(msg => addMessage(msg));
-        });
-
-        socket.on("message", (msg) => addMessage(msg));
 
         function sendMessage() {
             const input = document.getElementById("messageInput");
@@ -151,14 +135,13 @@
             }
         }
 
-        function addMessage(msg) {
+        socket.on("message", (msg) => {
             const messagesDiv = document.getElementById("messages");
-            const formattedMessage = converter.makeHtml(msg); // Convert Markdown to HTML
             const messageElement = document.createElement("div");
-            messageElement.innerHTML = formattedMessage;
+            messageElement.textContent = msg;
             messagesDiv.appendChild(messageElement);
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        }
+        });
     </script>
 </body>
 </html>
