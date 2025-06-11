@@ -17,10 +17,12 @@
 
     <!-- Registration & Login Form -->
     <div id="auth">
-        <input type="text" id="username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
-        <button onclick="register()">Register</button>
-        <button onclick="login()">Login</button>
+        <form onsubmit="event.preventDefault(); login();">
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button type="button" onclick="register()">Register</button>
+            <button type="submit">Login</button>
+        </form>
     </div>
 
     <!-- Chat UI -->
